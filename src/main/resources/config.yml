@@ -1,0 +1,575 @@
+# RegionBetter Plugin Configuration
+# Version: 1.0.0
+
+# Basic settings
+Config:
+  Debug: false
+  Language: "language.yml"
+  CommandAlias: ["region", "regions", "territory"]
+  MaxRegionsPerPlayer: 10
+  MaxBlocksPerRegion: 1000000
+
+# Region settings
+RegionSettints:
+  CreateRegionCheck: "" # Universal condition check for region creation (disabled)
+  CreateRegionCheckMessage: "&cCondition not met: {condition}"
+  BlocksLimit: false # Whether to check maximum number of blocks (disabled for testing)
+  RegionsLimit: true # Whether to check maximum available number of regions
+  Instal-flags: true # Whether to add flags from Default-flags when creating a region
+  Default-flags: # Automatic addition of flags to the created region
+    - "pvp=deny"
+    - "mob-damage=deny"
+    - "creeper-explosion=deny"
+    - "regionbetter-view=allow"
+
+# Region highlighting settings
+RegionViewSettings:
+  CheckPerms: true
+  Cooldown: 20 # Delay in ticks (20 ticks = 1 second) to prevent repeated command execution
+  Cmds:
+    - "asConsole! cmi actionbarmsg %player_name% -s:4 &6Territory {region_name}"
+    - "asPlayer! svis wg {region_name}"
+  ExitCmds:
+    - "asPlayer! svis wg {region_name}"
+    - "asConsole! cmi actionbarmsg %player_name% -s:4 &7Territory {region_name}"
+
+# Timeout settings
+Timeouts:
+  RegionNameInput: 30 # seconds for entering region name
+  SelectionProcess: 120 # seconds to complete point selection
+  AutoCleanup: 300 # seconds until automatic cleanup of all player states
+
+# Automatic state cleanup
+AutoCleanup:
+  OnDeath: true # clear states on player death
+  OnQuit: true # clear states on player quit
+  OnDisconnect: true # clear states on player disconnect
+  OnWorldChange: false # clear states on world change
+
+# Cancel commands via chat
+CancelCommands:
+  - "cancel"
+  - "cancel"
+  - "no"
+  - "no"
+  - "stop"
+  - "stop"
+
+# Validation system
+Validation:
+  RegionNamePattern: "^[a-zA-Z0-9_-]+$"
+  MinRegionSize: 1
+  MaxRegionSize: 1000000
+  CheckOverlap: true
+  CheckDistance: true
+
+# Logging system
+Logging:
+  Enabled: true
+  LogLevel: "INFO"
+  LogFile: "regionbetter.log"
+  LogActions: true
+  LogErrors: true
+
+# Performance system
+Performance:
+  AsyncOperations: true
+  CacheSize: 1000
+  CacheTimeout: 300
+  MaxConcurrentOperations: 10
+
+# Undo system settings
+UndoSystem:
+  Enabled: true
+  MaxHistory: 10
+  HistoryTimeout: 3600
+  UndoPermission: "regionbetter.undo"
+
+# Placeholder formats
+region_owned_v1: ","
+region_owned_v2: ", "
+region_owned_v3: " ,"
+region_membed_v1: ","
+region_membed_v2: ", "
+region_membed_v3: " ,"
+
+# Distance settings
+DistanceOwned:
+  format: "b"
+  switch: "1000"
+  formatswitch: "c"
+
+DistanceMembed:
+  format: "b"
+  switch: "1000"
+  formatswitch: "c"
+
+# Region shop settings
+RegionShop:
+  FormatShop: ","
+  FormatStart: "YYYY-MM-D-H-M-S"
+  FormatStop: "YYYY-MM-D-H-M-S"
+  FormatCost: "#,#"
+  TranslateNumbers:
+    - "1000;k"
+    - "1000000;m"
+  Symbol: "&2$"
+  TranslateTime:
+    - "years:years"
+    - "year;year"
+    - "mounths;months"
+    - "mounth;month"
+    - "days:days"
+    - "day:day"
+    - "hours:hours"
+    - "hour:hour"
+    - "minutes:minutes"
+    - "minute:minute"
+    - "sec:seconds"
+    - "now:now"
+
+# Commands for region creation
+RegionCreate:
+  Usage: "&6▏ &7 Try &f/region create <region name>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 First select &6two &7points!"
+    - "delay! 40"
+    - "asConsole! cmi actionbarmsg %player_name% &6Select 2 points before creating a region!"
+
+# Commands for region deletion
+RegionDelete:
+  Usage: "&6▏ &7 Try &f/region delete <region>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 Try &f/region delete <region name>"
+
+# Commands on successful region deletion
+RegionDeleteSuccess:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region &c{0} &7successfully deleted!"
+
+# Commands on region deletion error
+RegionDeleteError:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Error deleting region &e{0}&7!"
+    - "msg! &6▏ &7 The region may not exist or it's not yours."
+    - "asConsole! cmi actionbarmsg %player_name% &6Region {region_name} deleted!"
+
+# Commands for adding owner
+RegionAddOwner:
+  Usage: "&6▏ &7 Try &f/region addowner <region> <player>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &7You added player {last_player} to region {region_name}!"
+    - "delay! 40"
+    - "asConsole! cmi actionbarmsg %player_name% &6You added player {last_player} to region {region_name}!"
+
+# Commands for adding member
+RegionAddMember:
+  Usage: "&6▏ &7 Try &f/region addmember <region> <player>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 You added player {last_player} to region {region_name}!"
+    - "delay! 40"
+    - "asConsole! cmi actionbarmsg %player_name% &6You added player {last_player} to region {region_name}!"
+
+# Commands for removing owner
+RegionRemoveOwner:
+  Usage: "&6▏ &7 Try &f/region removeowner <region> <player>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 You removed player {last_player} from region {region_name}!"
+    - "delay! 40"
+    - "asConsole! cmi actionbarmsg %player_name% &6You removed player {last_player} from region {region_name}!"
+
+# Commands for removing member
+RegionRemoveMember:
+  Usage: "&6▏ &7 Try &f/region removemember <region> <player>"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 You removed player {last_player} from region {region_name}!"
+    - "delay! 40"
+    - "asConsole! cmi actionbarmsg %player_name% &6You removed player {last_player} from region {region_name}!"
+
+# Commands for region information
+RegionInfo:
+  Usage: "&6▏ &7 Try &f/region info <region>"
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Enter /help to get server help"
+    - "delay! 40"
+    - "asPlayer! help"
+
+# Commands for help
+RegionHelp:
+  Usage: "Usage: /region help"
+  Cooldown: 0
+  Cmds:
+    - "msg! &6=== RegionBetter Commands ==="
+    - "msg! &e/region create <name> &7- Create region"
+    - "msg! &e/region delete <name> &7- Delete region"
+    - "msg! &e/region better &7- Step-by-step region creation"
+    - "msg! &e/region select <1|2|clear|move|size|glow> &7- Management"
+    - "msg! &e/region info <name> &7- Region information"
+    - "msg! &e/region help &7- Show this help"
+
+# Detailed region information for owner
+RegionInfoOwner:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6=== Region Information '&e{region_name}&6' (Owner) ==="
+    - "msg! &x&e&6&8&8&4&5Owners: &x&f&f&f&a&8&0{owners}"
+    - "msg! &x&6&b&c&c&3&dMembers: &x&8&3&e&6&7&3{members}"
+    - "msg! &x&6&6&a&d&c&cFlags: &f{flags}"
+    - "msg! &x&f&f&c&c&8&0Point &x&4&d&c&9&f&f#1: &7{pos1}"
+    - "msg! &x&f&f&c&c&8&0Point &x&f&f&8&9&3&3#2: &7{pos2}"
+
+# Detailed region information for member
+RegionInfoMember:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6=== Region Information '&e{region_name}&6' (Member) ==="
+    - "msg! &x&e&6&8&8&4&5Owners: &x&f&f&f&a&8&0{owners}"
+    - "msg! &x&6&b&c&c&3&dMembers: &x&8&3&e&6&7&3{members}"
+    - "msg! &x&f&f&c&c&8&0Point &x&4&d&c&9&f&f#1: &7{pos1}"
+    - "msg! &x&f&f&c&c&8&0Point &x&f&f&8&9&3&3#2: &7{pos2}"
+
+# Detailed region information for public
+RegionInfoPublic:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6=== Region Information '&e{region_name}&6' (Public) ==="
+    - "msg! &x&e&6&8&8&4&5Owners: &x&f&f&f&a&8&0{owners}"
+    - "msg! &x&f&f&c&c&8&0Point &x&4&d&c&9&f&f#1: &7{pos1}"
+    - "msg! &x&f&f&c&c&8&0Point &x&f&f&8&9&3&3#2: &7{pos2}"
+
+# Region not found
+RegionInfoNotFound:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region &c{region_name} &7not found!"
+
+# Clickable placeholder settings
+# Clickable elements are now created via MiniMessage
+# Usage examples:
+# <click:run_command:/region addowner {region_name}><green>[Add Owner]</green></click>
+# <click:run_command:/region buy {region_name}><gold>[Buy Region]</gold></click>
+# <hover:show_text:'Command: /region flags {region_name}'><yellow>[Configure Flags]</yellow></hover>
+
+# Commands for starting step-by-step region creation
+RegionBetter:
+  Usage: "Usage: /region better"
+  Cooldown: 60
+  Cmds:
+    - "msg! &7-------- &6automatic region creation&7 --------"
+    - "msg! &6▏ &7 Keys for selecting territory &6Shift &8+ &6LMB"
+    - "msg! &6▏ &7 Select point &x&4&d&c&9&f&f#1 &7to select territory"
+    - "msg! &6▏ &7 Select point &x&f&f&8&9&3&3#2 &7to select territory"
+    - "delay! 10"
+    - "asPlayer! svis we"
+
+# Commands for selecting first point (used for /r select 1)
+RegionSelect1:
+  Usage: "Usage: /region select 1"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 Select point &x&4&d&c&9&f&f#1 &7with keys &6Shift &8+ &6LMB"
+    - "asPlayer! svis we"
+
+# Commands for selecting second point (used for /r select 2)
+RegionSelect2:
+  Usage: "Usage: /region select 2"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 Select point &x&f&f&8&9&3&3#2 &7with keys &6Shift &8+ &6LMB"
+    - "asPlayer! svis we"
+
+# Commands for selecting first point in /r better process
+RegionBetterSelect1:
+  Cooldown: 0
+  Cmds:
+    - "asConsole! cmi actionbarmsg %player_name% -s:5 {#e6b873}&lPoint {#4dc9ff}&l#1 {#e6b873}&lselected!"
+    - "asPlayerForce! cmi point trial_spawner_detection_ominous 15 -s:1"
+    - "asPlayer! svis we"
+
+# Commands for selecting second point in /r better process
+RegionBetterSelect2:
+  Cooldown: 0
+  Cmds:
+    - "asConsole! cmi actionbarmsg %player_name% -s:5 {#e6b873}&lPoint {#ff8933}&l#2 {#e6b873}&lselected!"
+    - "asPlayerForce! cmi point trial_spawner_detection 15 -s:1"
+    - "asPlayer! svis we"
+
+
+# Commands on selection completion in /region better process
+RegionBetterComplete:
+  Cooldown: 0
+  Cmds:
+    - "delay! 5"
+    - "asPlayer! svis we"
+    - "msg! &6▏ &7 Enter region name in chat &8(example: myRegion_01)"
+
+# Commands for canceling /region better process
+RegionBetterCancel:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region creation process canceled!"
+    - "msg! &6▏ &7 Enter &f/region better &7to retry."
+
+# Commands for CMI first point (executed on Shift+click in select1 process)
+RegionSelect1CMI:
+  Cooldown: 0
+  Cmds:
+    - "asPlayerForce! cmi point trial_spawner_detection_ominous 15 -s:1"
+    - "delay! 20"
+    - "asPlayer! svis we"
+
+# Commands for CMI second point (executed on Shift+click in select2 process)
+RegionSelect2CMI:
+  Cooldown: 0
+  Cmds:
+    - "asPlayerForce! cmi point trial_spawner_detection 15 -s:1"
+    - "delay! 20"
+    - "asPlayer! svis we"
+
+# Commands on selection completion
+RegionSelectComplete:
+  Cooldown: 0
+  Cmds:
+    - "delay! 5"
+    - "asPlayer! svis we"
+    - "asConsole! cmi actionbarmsg %player_name% -s:5 {#e6b873}&lEnter region name in chat!"
+
+# Commands on first point setup
+RegionSelect1Complete:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 First point set!"
+    - "delay! 3"
+    - "asPlayer! svis we"
+
+# Commands on second point setup
+RegionSelect2Complete:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Second point set!"
+    - "delay! 3"
+    - "asPlayer! svis we"
+
+# Commands for clearing selection
+RegionSelectClear:
+  Usage: "Usage: /region select clear"
+  Cooldown: 60
+  Cmds:
+    - "msg! &6▏ &7 Selected area cleared"
+    - "delay! 10"
+    - "asPlayer! swis we"
+
+# Commands for moving selection
+RegionSelectMove:
+  Usage: "Usage: /region select move <+/-blocks>"
+  Cooldown: 0
+  Cmds:
+    - "msg! &cUsage: /region select move <+/-blocks>"
+    - "msg! &7Moves the selected area in the direction of view"
+    - "msg! &7Example: /region select move 5 (move forward 5 blocks)"
+    - "msg! &7Example: /region select move -3 (move backward 3 blocks)"
+    - "asPlayer! swis we"
+
+# Commands for changing selection size
+RegionSelectSize:
+  Usage: "Usage: /region select size <direction> <blocks>"
+  Cooldown: 0
+  Cmds:
+    - "msg! &cUsage: /region select size <direction> <blocks>"
+    - "msg! &7Changes the size of the selected area"
+    - "msg! &7Directions: up, down, face"
+    - "msg! &7Example: /region select size up 5 (expand 5 blocks up)"
+    - "msg! &7Example: /region select size down -3 (shrink 3 blocks down)"
+    - "msg! &7Example: /region select size face 2 (expand 2 blocks in view direction)"
+
+# Commands on successful selection move
+RegionSelectMoveSuccess:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Selected area moved in view direction"
+    - "msg! &6▏ &7 by &e{blocks} &7blocks"
+    - "delay! 3"
+    - "asPlayer! svis we"
+
+# Commands on selection move error
+RegionSelectMoveError:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Specify the number of blocks &8(example: 5, -3)"
+
+# Commands on successful selection size change
+RegionSelectSizeSuccess:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Selected area changed in direction &e{direction}"
+    - "msg! &6▏ &7 &aby &e{blocks} &ablocks"
+    - "delay! 3"
+    - "asPlayer! svis we"
+
+# Commands on selection size change error
+RegionSelectSizeError:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Specify correct number of blocks &8(example: 5, -3)"
+
+# Commands for view command usage
+RegionViewUsage:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Usage: /region view"
+
+# Commands for selection highlighting
+RegionSelectGlow:
+  Cooldown: 60
+  Cmds:
+    - "asPlayer! swis we"
+    - "asConsole! cmi actionbarmsg %player_name% &6Selected area highlighted!"
+
+# Commands for region highlighting
+RegionGlow:
+  Cooldown: 60
+  Cmds:
+    - "asPlayer! svis wg {region_name}"
+    - "asConsole! cmi actionbarmsg %player_name% &6Region {region_name} highlighted!"
+
+# Commands for toggling highlighting
+RegionView:
+  Cooldown: 120
+  Cmds:
+    - "asConsole! cmi actionbarmsg %player_name% &6Highlighting is now &f%regionbetter_region_view%!"
+
+# Commands for reload
+RegionReload:
+  Usage: "&6▏ &7 Try: /region reload"
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Configuration reloaded!"
+
+# Commands for cancel
+RegionCancel:
+  Usage: "Usage: /region cancel"
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region creation process canceled!"
+
+# Commands for undo
+RegionUndo:
+  Usage: "Usage: /region undo"
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Last action undone!"
+
+# Commands for already active selection
+RegionBetterAlreadyActive:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 You already have an active selection!"
+    - "msg! &6▏ &7 Enter /region cancel to cancel."
+
+# Commands for no active selection
+RegionSelectNoActive:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 You haven't selected an area yet! Use /region better"
+
+# Commands for canceling region creation
+RegionCreateCancel:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region name input canceled."
+
+# Commands for invalid region name
+RegionCreateInvalidName:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region name can only contain"
+    - "msg! &6▏ &7 Letters, numbers, hyphens and underscores."
+
+# Commands for existing region
+RegionCreateExists:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region &c{region_name} &7already exists!"
+    - "delay! 40"
+    - "asPlayer! svis wg {region_name}"
+
+# Commands for no selection
+RegionCreateNoSelection:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 No selected area!"
+
+# Commands for successful region creation
+RegionCreateSuccess:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region &e{region_name} &7successfully created!"
+    - "delay! 40"
+    - "asPlayer! svis wg {region_name}"
+
+# Commands for region creation error
+RegionCreateError:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Error creating region &c{region_name}&7!"
+
+# Exceptions for /region glow command
+# Regions from this list will not be shown in tab completion
+RegionTabGlow:
+  - "spawn"
+  - "farm1"
+
+# Exceptions for /region info command
+# Regions from this list will not be shown in tab completion
+RegionTabInfo:
+  - "spawn"
+  - "farm1"
+
+# Commands for toggling region view mode
+RegionViewEnabled:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Automatic region highlighting enabled!"
+
+RegionViewDisabled:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &8 Automatic region highlighting disabled!"
+
+# Commands for canceling region creation
+RegionCreateCancel:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region creation canceled!"
+    - "msg! &6▏ &7 Try &f/region better &7to restart"
+
+# Commands for invalid region name
+RegionCreateInvalidName:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Invalid region name: &c'{region_name}'"
+    - "msg! &6▏ &7 Use only letters, numbers, hyphens and underscores"
+    - "msg! &6▏ &7 Try again or enter &f'cancel'"
+
+# Commands for existing region
+RegionCreateExists:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Region &f{region_name} &7already exists!"
+    - "msg! &6▏ &7 Choose a different name or enter 'cancel'"
+
+# Commands when no selection
+RegionCreateNoSelection:
+  Cooldown: 0
+  Cmds:
+    - "msg! &6▏ &7 Selection not found!"
+    - "msg! &6▏ &7 Try &f/region better &7to create a region"

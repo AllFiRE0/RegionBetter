@@ -1,0 +1,42 @@
+name: RegionBetter
+version: 1.0.0
+main: com.allfire.regionbetter.RegionBetter
+api-version: 1.21
+author: AllFire
+description: Advanced region management plugin for Minecraft 1.21+
+
+depend: [WorldGuard, WorldEdit]
+softdepend: [PlaceholderAPI, LuckPerms, Vault]
+
+commands:
+  region:
+    description: Main command for region management
+    usage: /region <subcommand>
+    aliases: [regions, territory, r]
+    permission: regionbetter.use
+
+permissions:
+  regionbetter.use:
+    description: Basic permission to use region commands
+    default: true
+  regionbetter.region.create:
+    description: Permission to create regions
+    default: true
+  regionbetter.region.delete:
+    description: Permission to delete regions
+    default: true
+  regionbetter.region.manage:
+    description: Permission to manage regions (add/remove owners/members)
+    default: true
+  regionbetter.region.view:
+    description: Permission to view region boundaries
+    default: true
+  regionbetter.selection.use:
+    description: Permission to use selection tools
+    default: true
+  regionbetter.undo:
+    description: Permission to undo actions
+    default: true
+  regionbetter.admin:
+    description: Admin permissions for the plugin
+    default: op
